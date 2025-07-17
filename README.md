@@ -1,2 +1,2 @@
 # life
-Conway's Game of Life
+Terminal Conway's Game of Life
