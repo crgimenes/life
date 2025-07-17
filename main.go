@@ -75,7 +75,10 @@ func (p *LifeGame) Print() {
 	}
 	sb.WriteString("generation: ")
 	sb.WriteString(strconv.Itoa(p.time))
-	os.Stdout.WriteString(sb.String())
+	_, err := os.Stdout.WriteString(sb.String())
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (p *LifeGame) count_now_alive(r, c int) (i int) {
