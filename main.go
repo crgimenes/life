@@ -17,6 +17,31 @@ type LifeGame struct {
 	time     int
 }
 
+func (p *LifeGame) isEmpty() bool {
+	for r := 0; r < p.row; r++ {
+		for c := 0; c < p.col; c++ {
+			if p.board[r][c] {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func (p *LifeGame) equals(other *LifeGame) bool {
+	if p.row != other.row || p.col != other.col {
+		return false
+	}
+	for r := 0; r < p.row; r++ {
+		for c := 0; c < p.col; c++ {
+			if p.board[r][c] != other.board[r][c] {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func (p *LifeGame) Init(row, col int) *LifeGame {
 	p.row = row
 	p.col = col
@@ -94,7 +119,8 @@ func (p *LifeGame) is_dead_or_alive(r, c int) (b bool) {
 }
 
 func generate_gen(game *LifeGame, ch chan<- *LifeGame) {
-	for true {
+	var previous *LifeGame
+	for {
 		next := new(LifeGame).Init(game.row, game.col)
 		for r := 0; r < game.row; r++ {
 			for c := 0; c < game.col; c++ {
@@ -102,7 +128,30 @@ func generate_gen(game *LifeGame, ch chan<- *LifeGame) {
 			}
 		}
 		next.time = game.time + 1
+
+		// Check if all cells are dead
+		if next.isEmpty() {
+			ch <- next
+			close(ch)
+			return
+		}
+
+		// Check if state is the same as previous (oscillation period 1)
+		if previous != nil && next.equals(previous) {
+			ch <- next
+			close(ch)
+			return
+		}
+
+		// Check if state is the same as current (static state)
+		if next.equals(game) {
+			ch <- next
+			close(ch)
+			return
+		}
+
 		ch <- next
+		previous = game
 		game = next
 	}
 }
@@ -136,4 +185,6 @@ func main() {
 		next.Print()
 		time.Sleep(60 * time.Millisecond)
 	}
+	print("\033[?25h") // show cursor
+	println("\nGame stabilized. Exiting...")
 }
