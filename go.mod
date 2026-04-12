@@ -1,7 +1,7 @@
 module life
 
-go 1.25
+go 1.26
 
-require golang.org/x/term v0.34.0
+require golang.org/x/term v0.42.0
 
-require golang.org/x/sys v0.35.0 // indirect
+require golang.org/x/sys v0.43.0 // indirect
