@@ -49,7 +49,7 @@ func (p *LifeGame) Init(row, col int) *LifeGame {
 	for r := range row {
 		p.board[r] = make([]bool, col)
 		for c := range col {
-			if rand.Float64() < 0.3 {
+			if rand.Float64() < 0.3 { // #nosec G404 -- the first board, not a secret
 				p.board[r][c] = true
 			}
 		}

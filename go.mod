@@ -1,4 +1,4 @@
-module life
+module github.com/crgimenes/life
 
 go 1.27.1
 
