@@ -165,6 +165,11 @@ func terminalSize() (int, int) {
 		println("Error getting terminal size:", err.Error())
 		os.Exit(1)
 	}
+	// a row is kept for the generation line and a cell is two columns wide
+	if row < 2 || col < 2 {
+		println("Error: terminal too small:", strconv.Itoa(col)+"x"+strconv.Itoa(row))
+		os.Exit(1)
+	}
 	return row - 1, col / 2
 }
 

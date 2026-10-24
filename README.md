@@ -15,7 +15,7 @@ go install github.com/crgimenes/life@latest
 ```
 
 Or take a binary from the [releases](https://github.com/crgimenes/life/releases):
-macOS and Linux (amd64 and arm64) and Windows (amd64).
+macOS, Linux and Windows, amd64 and arm64.
 
 ## Usage
 
